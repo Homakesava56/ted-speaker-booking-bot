@@ -17,7 +17,11 @@
     ],
     "travel": "North America, international, and virtual events",
     "style": "Interactive, practical, and storytelling-focused",
-    "fees": "Base session: $200; custom subject session: starting at $500"
+    "feesDisplay": "Base session: $200; custom subject session: starting at $500",
+    "minimumFees": {
+      "Virtual": 200,
+      "In Person": 200
+    }
   },
   {
     "name": "Bohan Ni",
@@ -40,7 +44,11 @@
     ],
     "travel": "North America, international with advance notice, and virtual worldwide",
     "style": "Interactive, evidence-based, beginner-friendly, and research-driven",
-    "fees": "Virtual keynote: $750–$1,500"
+    "feesDisplay": "Virtual keynote: $750–$1,500",
+    "minimumFees": {
+      "Virtual": 750,
+      "In Person": 750
+    }
   },
   {
     "name": "Susheel Reddy",
@@ -60,7 +68,11 @@
     ],
     "travel": "United States, virtual international events, and selected travel opportunities",
     "style": "Engaging, interactive, practical, and audience-focused",
-    "fees": "Virtual: $50–$150; in-person: $100–$300; workshop: $150–$400"
+    "feesDisplay": "Virtual: $50–$150; in-person: $100–$300; workshop: $150–$400",
+    "minimumFees": {
+      "Virtual": 50,
+      "In Person": 100
+    }
   },
   {
     "name": "Anthony Tang",
@@ -82,7 +94,11 @@
     ],
     "travel": "Virtual and in-person; travel costs may be separate",
     "style": "Passionate, energetic, personal, and highly relatable",
-    "fees": "Student events: $0–$300; virtual: $250–$750; workshops: $500–$1,500; in-person keynote: $1,000–$2,500"
+    "feesDisplay": "Student events: $0–$300; virtual: $250–$750; workshops: $500–$1,500; in-person keynote: $1,000–$2,500",
+    "minimumFees": {
+      "Virtual": 250,
+      "In Person": 1000
+    }
   },
   {
     "name": "Nikhil Reddy Kethireddy",
@@ -102,7 +118,11 @@
     ],
     "travel": "Virtual worldwide and in-person throughout the United States",
     "style": "Educational, data-driven, inspirational, and storytelling-focused",
-    "fees": "Virtual: $250–$1,500; in-person: $500–$3,000; workshops: $2,000–$7,500"
+    "feesDisplay": "Virtual: $250–$1,500; in-person: $500–$3,000; workshops: $2,000–$7,500",
+    "minimumFees": {
+      "Virtual": 250,
+      "In Person": 500
+    }
   },
   {
     "name": "Homakesavadurgaprasad",
@@ -119,6 +139,10 @@
     ],
     "travel": "North America and virtual events",
     "style": "Storytelling-driven, data-informed, energetic, and interactive",
-    "fees": "Virtual: $2,000–$3,000; in-person: $4,000–$6,000; half-day workshop: $8,000+"
+    "feesDisplay": "Virtual: $2,000–$3,000; in-person: $4,000–$6,000; half-day workshop: $8,000+",
+    "minimumFees": {
+      "Virtual": 2000,
+      "In Person": 4000
+    }
   }
 ]
