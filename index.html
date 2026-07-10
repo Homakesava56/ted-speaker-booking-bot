@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Interactive AI TED Talk Speaker Booking Bot" />
+  <title>AI TED Talk Booking Bot</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main class="app">
+    <header class="header">
+      <div class="eyebrow">AI SPEAKER'S BUREAU</div>
+      <h1>🎤 AI TED Talk Booking Bot</h1>
+      <p>Choose a topic, review matching speakers, and complete the booking one question at a time.</p>
+    </header>
+
+    <section id="chat" class="chat" aria-live="polite"></section>
+
+    <section class="controls">
+      <input id="userInput" type="text" placeholder="Type your answer..." autocomplete="off" />
+      <button id="sendButton" type="button">Send</button>
+    </section>
+
+    <footer class="footer">
+      Academic prototype — final speaker availability and pricing require confirmation.
+    </footer>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,124 @@
+[
+  {
+    "name": "Karthik Sambandan",
+    "title": "Senior Data Engineer | Technology Speaker",
+    "bio": "A seasoned technology professional with nearly two decades of experience in data engineering, analytics, AI, cloud, and enterprise transformation.",
+    "topics": [
+      "The Evolution of Data: From Traditional Systems to AI and Cloud",
+      "Building Modern Data Platforms for Enterprise Success",
+      "Real-World Data Engineering Use Cases Across Industries",
+      "Data Analytics and AI: Turning Information into Business Value",
+      "Lessons from Two Decades in IT",
+      "Data Architecture and Implementation Strategies",
+      "Technology Transformation Across Industries"
+    ],
+    "languages": [
+      "English"
+    ],
+    "travel": "North America, international, and virtual events",
+    "style": "Interactive, practical, and storytelling-focused",
+    "fees": "Base session: $200; custom subject session: starting at $500"
+  },
+  {
+    "name": "Bohan Ni",
+    "title": "AI Researcher | Data Scientist | Technology Speaker",
+    "bio": "An AI researcher and data scientist focused on machine learning, graph neural networks, healthcare, transportation safety, and responsible AI.",
+    "topics": [
+      "Artificial Intelligence: Present and Future",
+      "Machine Learning Fundamentals and Applications",
+      "Graph Neural Networks Explained",
+      "AI in Healthcare and Medical Research",
+      "Data Science for Decision-Making",
+      "Responsible and Ethical AI",
+      "Emerging Technologies and the Future of Work",
+      "Career Development in AI and Data Science",
+      "International Student Success in STEM"
+    ],
+    "languages": [
+      "English",
+      "Mandarin Chinese"
+    ],
+    "travel": "North America, international with advance notice, and virtual worldwide",
+    "style": "Interactive, evidence-based, beginner-friendly, and research-driven",
+    "fees": "Virtual keynote: $750–$1,500"
+  },
+  {
+    "name": "Susheel Reddy",
+    "title": "Data Analyst | Analytics Enthusiast | Speaker",
+    "bio": "A data analyst specializing in analytics, business intelligence, statistical analysis, visualization, career development, and student mentoring.",
+    "topics": [
+      "Data Storytelling and Business Insights",
+      "Building a Career in Data Analytics",
+      "Leadership and Personal Growth",
+      "International Student Success",
+      "The Future of Data Analytics and AI",
+      "Career Readiness and Professional Development"
+    ],
+    "languages": [
+      "English",
+      "Telugu"
+    ],
+    "travel": "United States, virtual international events, and selected travel opportunities",
+    "style": "Engaging, interactive, practical, and audience-focused",
+    "fees": "Virtual: $50–$150; in-person: $100–$300; workshop: $150–$400"
+  },
+  {
+    "name": "Anthony Tang",
+    "title": "Data Analyst | Cross-Border Trading Consultant",
+    "bio": "A data and business professional helping technical audiences communicate clearly, build trust, and create opportunities across cultures and industries.",
+    "topics": [
+      "Communicating Beyond the Data",
+      "Communicating Technical Ideas to Non-Technical Audiences",
+      "Using Data to Tell a Compelling Story",
+      "Building Confidence as an International Student",
+      "Professional Relationships Across Cultures",
+      "Emotional Intelligence for Technical Professionals",
+      "Communication for Interviews, Presentations, and Meetings",
+      "Turning Analytical Skills into Business Opportunities"
+    ],
+    "languages": [
+      "English",
+      "Mandarin Chinese"
+    ],
+    "travel": "Virtual and in-person; travel costs may be separate",
+    "style": "Passionate, energetic, personal, and highly relatable",
+    "fees": "Student events: $0–$300; virtual: $250–$750; workshops: $500–$1,500; in-person keynote: $1,000–$2,500"
+  },
+  {
+    "name": "Nikhil Reddy Kethireddy",
+    "title": "End User Support Engineer | Technology Speaker",
+    "bio": "An IT support professional focused on modern help desk evolution, continuous learning, problem solving, adaptability, and career growth.",
+    "topics": [
+      "The Future of IT Support",
+      "The Power of Continuous Learning in Technology Careers",
+      "The Immigrant Journey: Building a Career Through Adaptability and Persistence",
+      "Problem Solving for Successful IT Professionals",
+      "The Importance of Time: Investing in Your Future"
+    ],
+    "languages": [
+      "English",
+      "Telugu",
+      "Hindi"
+    ],
+    "travel": "Virtual worldwide and in-person throughout the United States",
+    "style": "Educational, data-driven, inspirational, and storytelling-focused",
+    "fees": "Virtual: $250–$1,500; in-person: $500–$3,000; workshops: $2,000–$7,500"
+  },
+  {
+    "name": "Homakesavadurgaprasad",
+    "title": "Data Professional | Emerging Leader | Speaker",
+    "bio": "A data professional and emerging leader combining analytics, leadership, growth, and resilience through practical stories and real-world lessons.",
+    "topics": [
+      "Data-Driven Decisions: Turning Numbers Into Action",
+      "Leading Without the Title",
+      "The Discipline of Growth",
+      "Resilience in a Data-Driven World"
+    ],
+    "languages": [
+      "English"
+    ],
+    "travel": "North America and virtual events",
+    "style": "Storytelling-driven, data-informed, energetic, and interactive",
+    "fees": "Virtual: $2,000–$3,000; in-person: $4,000–$6,000; half-day workshop: $8,000+"
+  }
+]
