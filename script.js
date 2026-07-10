@@ -33,6 +33,14 @@ function escapeHtml(value) {
   })[character]);
 }
 
+function normalize(text) {
+  return String(text || "")
+    .toLowerCase()
+    .replace(/[^a-z0-9\s]/g, " ")
+    .replace(/\s+/g, " ")
+    .trim();
+}
+
 function addBot(content, className = "") {
   const chat = document.getElementById("chat");
   const row = document.createElement("div");
@@ -73,6 +81,8 @@ function showTopics() {
   addBot(`
     <strong>Please select a TED Talk topic:</strong>
     <div class="options">${buttons}</div>
+    <br>
+    You can also type a speaker's name to view all topics offered by that speaker.
   `);
 }
 
@@ -102,7 +112,7 @@ function showSpeaker(speaker) {
       <div class="meta">${escapeHtml(speaker.title)}</div>
 
       <div class="detail">
-        <strong>Topic:</strong> ${escapeHtml(selectedTopic)}
+        <strong>Selected Topic:</strong> ${escapeHtml(selectedTopic)}
       </div>
 
       <div class="detail">
@@ -134,6 +144,87 @@ function showSpeaker(speaker) {
   `;
 
   addBot(card);
+}
+
+function findSpeakersByName(input) {
+  const query = normalize(input);
+
+  if (!query) {
+    return [];
+  }
+
+  return speakers.filter(speaker => {
+    const fullName = normalize(speaker.name);
+    const nameParts = fullName.split(" ");
+
+    return fullName === query ||
+      fullName.includes(query) ||
+      query.includes(fullName) ||
+      nameParts.some(part => part.length > 2 && part === query);
+  });
+}
+
+function showSpeakerTopics(speaker) {
+  selectedSpeaker = speaker;
+
+  const topicButtons = speaker.topics.map(topic =>
+    `<button class="option" onclick='selectSpeakerTopic(${JSON.stringify(speaker.name)}, ${JSON.stringify(topic)})'>
+      ${escapeHtml(topic)}
+    </button>`
+  ).join("");
+
+  addBot(`
+    <div class="speaker-card">
+      <h3>${escapeHtml(speaker.name)}</h3>
+      <div class="meta">${escapeHtml(speaker.title)}</div>
+
+      <div class="detail">
+        <strong>Bio:</strong> ${escapeHtml(speaker.bio)}
+      </div>
+
+      <div class="detail">
+        <strong>Speaking Style:</strong> ${escapeHtml(speaker.style)}
+      </div>
+
+      <div class="detail">
+        <strong>Languages:</strong> ${escapeHtml(speaker.languages.join(", "))}
+      </div>
+
+      <div class="detail">
+        <strong>Travel:</strong> ${escapeHtml(speaker.travel)}
+      </div>
+
+      <div class="detail">
+        <strong>Pricing:</strong> ${escapeHtml(speaker.feesDisplay)}
+      </div>
+
+      <div class="detail">
+        <strong>TED Talk Topics:</strong>
+      </div>
+
+      <div class="options">
+        ${topicButtons}
+      </div>
+    </div>
+  `);
+}
+
+function selectSpeakerTopic(speakerName, topic) {
+  selectedSpeaker = speakers.find(speaker => speaker.name === speakerName);
+  selectedTopic = topic;
+
+  addUser(topic);
+
+  addBot(`
+    <strong>You selected:</strong> ${escapeHtml(topic)}<br><br>
+    <strong>Speaker:</strong> ${escapeHtml(selectedSpeaker.name)}<br><br>
+
+    <button
+      class="action"
+      onclick='confirmSpeaker(${JSON.stringify(selectedSpeaker.name)})'>
+      Confirm This Speaker
+    </button>
+  `);
 }
 
 function confirmSpeaker(name) {
@@ -207,7 +298,56 @@ function submitInput() {
     return;
   }
 
+  handleSpeakerOrTopicSearch(value);
+}
+
+function handleSpeakerOrTopicSearch(value) {
+  const speakerMatches = findSpeakersByName(value);
+
+  if (speakerMatches.length === 1) {
+    const speaker = speakerMatches[0];
+
+    addBot(`
+      <strong>I found ${escapeHtml(speaker.name)}.</strong><br>
+      Here are all the TED Talk topics offered by this speaker.
+    `);
+
+    showSpeakerTopics(speaker);
+    return;
+  }
+
+  if (speakerMatches.length > 1) {
+    const buttons = speakerMatches.map(speaker =>
+      `<button
+        class="option"
+        onclick='showSpeakerByName(${JSON.stringify(speaker.name)})'>
+        ${escapeHtml(speaker.name)}
+      </button>`
+    ).join("");
+
+    addBot(`
+      <strong>I found multiple matching speakers.</strong><br>
+      Please choose one:
+      <div class="options">${buttons}</div>
+    `);
+
+    return;
+  }
+
   handleTypedTopic(value);
+}
+
+function showSpeakerByName(name) {
+  addUser(name);
+
+  const speaker = speakers.find(item => item.name === name);
+
+  if (!speaker) {
+    addBot("Sorry, I could not find that speaker.");
+    return;
+  }
+
+  showSpeakerTopics(speaker);
 }
 
 function saveBookingAnswer(answer) {
@@ -303,7 +443,7 @@ function chooseAnotherSpeaker() {
   booking = {};
   bookingStep = 0;
 
-  addBot("No problem. Please choose another topic or speaker.");
+  addBot("No problem. Type another speaker's name or choose another topic.");
   setTimeout(showTopics, 250);
 }
 
@@ -332,11 +472,9 @@ function findAffordableSpeakers() {
       within your budget of
       <strong>$${pendingBudget.toLocaleString()}</strong>.<br><br>
 
-      You can increase your budget or choose another topic.
-
       <div class="options">
         <button class="option" onclick="increaseBudget()">Increase Budget</button>
-        <button class="option" onclick="chooseAnotherSpeaker()">Choose Another Topic</button>
+        <button class="option" onclick="chooseAnotherSpeaker()">Choose Another Speaker</button>
       </div>
     `);
 
@@ -344,17 +482,10 @@ function findAffordableSpeakers() {
   }
 
   addBot(`
-    <strong>I found ${affordableSpeakers.length} speaker${affordableSpeakers.length > 1 ? "s" : ""} within your budget.</strong><br><br>
-
-    I recommended these speakers because:
-    <ul>
-      <li>Their topics are related to your selected topic.</li>
-      <li>Their minimum fee fits your budget.</li>
-      <li>They support your selected event format.</li>
-    </ul>
+    <strong>I found ${affordableSpeakers.length} affordable speaker${affordableSpeakers.length > 1 ? "s" : ""}.</strong>
   `);
 
-  affordableSpeakers.forEach(speaker => showAffordableSpeaker(speaker));
+  affordableSpeakers.forEach(showAffordableSpeaker);
 }
 
 function showAffordableSpeaker(speaker) {
@@ -366,23 +497,15 @@ function showAffordableSpeaker(speaker) {
       <div class="meta">${escapeHtml(speaker.title)}</div>
 
       <div class="detail">
-        <strong>Related Topic:</strong>
-        ${escapeHtml(findBestRelatedTopic(speaker))}
+        <strong>Related Topic:</strong> ${escapeHtml(findBestRelatedTopic(speaker))}
       </div>
 
       <div class="detail">
-        <strong>Minimum Fee:</strong>
-        $${minimumFee.toLocaleString()}
+        <strong>Minimum Fee:</strong> $${minimumFee.toLocaleString()}
       </div>
 
       <div class="detail">
-        <strong>Your Budget:</strong>
-        $${pendingBudget.toLocaleString()}
-      </div>
-
-      <div class="detail">
-        <strong>Why Recommended:</strong>
-        Topic relevance and budget compatibility.
+        <strong>Your Budget:</strong> $${pendingBudget.toLocaleString()}
       </div>
 
       <button
@@ -426,8 +549,6 @@ function switchToAffordableSpeaker(name) {
 
     This speaker fits your budget of
     <strong>$${pendingBudget.toLocaleString()}</strong>.
-
-    I will continue collecting the remaining booking details.
   `);
 
   mode = "booking";
@@ -440,9 +561,7 @@ function handleBudgetMismatchInput(value) {
   const amount = Number(value.replace(/[$,]/g, ""));
 
   if (!amount || amount < 0) {
-    addBot(`
-      Please use one of the available options or enter a valid new budget.
-    `);
+    addBot("Please select an option or enter a valid new budget.");
     return;
   }
 
@@ -474,54 +593,25 @@ function showBookingSummary() {
   const summary = `
     <strong>✅ Booking Request Created</strong><br><br>
 
-    <strong>Speaker:</strong>
-    ${escapeHtml(selectedSpeaker.name)}<br>
+    <strong>Speaker:</strong> ${escapeHtml(selectedSpeaker.name)}<br>
+    <strong>Topic:</strong> ${escapeHtml(selectedTopic)}<br>
+    <strong>Event:</strong> ${escapeHtml(booking.eventName)}<br>
+    <strong>Date:</strong> ${escapeHtml(booking.eventDate)}<br>
+    <strong>Format:</strong> ${escapeHtml(booking.eventFormat)}<br>
+    <strong>Location/Platform:</strong> ${escapeHtml(booking.location)}<br>
+    <strong>Audience Size:</strong> ${escapeHtml(booking.audienceSize)}<br>
+    <strong>Budget:</strong> ${escapeHtml(booking.budget)}<br>
+    <strong>Contact:</strong> ${escapeHtml(booking.contactName)}<br>
+    <strong>Email:</strong> ${escapeHtml(booking.email)}<br><br>
 
-    <strong>Topic:</strong>
-    ${escapeHtml(selectedTopic)}<br>
-
-    <strong>Event:</strong>
-    ${escapeHtml(booking.eventName)}<br>
-
-    <strong>Date:</strong>
-    ${escapeHtml(booking.eventDate)}<br>
-
-    <strong>Format:</strong>
-    ${escapeHtml(booking.eventFormat)}<br>
-
-    <strong>Location/Platform:</strong>
-    ${escapeHtml(booking.location)}<br>
-
-    <strong>Audience Size:</strong>
-    ${escapeHtml(booking.audienceSize)}<br>
-
-    <strong>Budget:</strong>
-    ${escapeHtml(booking.budget)}<br>
-
-    <strong>Contact:</strong>
-    ${escapeHtml(booking.contactName)}<br>
-
-    <strong>Email:</strong>
-    ${escapeHtml(booking.email)}<br><br>
-
-    <strong>Status:</strong>
-    Pending speaker confirmation.
+    <strong>Status:</strong> Pending speaker confirmation.
 
     <div class="options">
-      <button class="option" onclick="restartBot()">
-        Start New Booking
-      </button>
+      <button class="option" onclick="restartBot()">Start New Booking</button>
     </div>
   `;
 
   addBot(summary, "summary");
-}
-
-function normalize(text) {
-  return text.toLowerCase()
-    .replace(/[^a-z0-9\s]/g, " ")
-    .replace(/\s+/g, " ")
-    .trim();
 }
 
 function handleTypedTopic(value) {
@@ -539,9 +629,10 @@ function handleTypedTopic(value) {
 
   if (!matches.length) {
     addBot(`
-      Sorry, I don't find any speaker for
-      <strong>${escapeHtml(value)}</strong>.<br>
-      Please select one of the available topics.
+      Sorry, I don't find any speaker or topic for
+      <strong>${escapeHtml(value)}</strong>.<br><br>
+
+      You can type a speaker's name or select one of the available topics.
     `);
 
     showTopics();
@@ -590,7 +681,11 @@ async function initializeBot() {
       )
     ].sort();
 
-    addBot("Hello! I can help you find and book a TED Talk speaker.");
+    addBot(`
+      <strong>Welcome to The Boyz AI Speaker Bot!</strong><br><br>
+      You can select a topic or type a speaker's name to view all of their TED Talk topics.
+    `);
+
     setTimeout(showTopics, 350);
 
   } catch (error) {
